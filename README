@@ -1,0 +1,5 @@
+Виртуальное окружение python -m venv venv
+.gitignore
+    venv
+    **__pycache__   
+
