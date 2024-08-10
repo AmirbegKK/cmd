@@ -40,7 +40,7 @@ async def donate_page_callback(callback: types.CallbackQuery) -> None:
 
 
 @user_pr_router.callback_query(F.data.startswith('donateID:'))
-async def donate_page_callback(callback: types.CallbackQuery) -> None:
+async def donate_id_callback(callback: types.CallbackQuery) -> None:
     donate_id = int(callback.data.split(':')[-1])
 
     donate = await rq.get_donate_by_id(donate_id)
