@@ -5,7 +5,7 @@ from aiogram.fsm.context import FSMContext
 from keyboards import utils
 from filters.chat_types import ChatTypeFilter
 from database import requests as rq
-from FSM import fsm
+from states import fsm
 
 
 user_pr_router = Router()
