@@ -1,3 +1,5 @@
+[tool.ruff]
+
 exclude = [
   "utils",
 ]
