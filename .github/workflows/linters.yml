@@ -30,7 +30,6 @@ jobs:
       run: |
         pip install ruff
         ruff check --output-format=github .
-      continue-on-error: true
     - name: Safety check
       run: |
         pip install safety
