@@ -1,4 +1,5 @@
 import asyncio
+import logging
 import os
 
 from aiogram.client.default import DefaultBotProperties
@@ -11,7 +12,7 @@ from handlers.private_chat import user_pr_router
 from keyboards.bot_commands import private
 from database.engine import create_db, drop_db
 
-
+logger = logging.getLogger(__name__)
 load_dotenv(find_dotenv())
 
 ALLOWED_UPDATES = [
@@ -39,7 +40,7 @@ async def main():
 
 if __name__ == '__main__':
     try:
-        print('Бот запущен')
+        logger.info('Бот запущен')
         asyncio.run(main())
     except KeyboardInterrupt:
-        print('Бот завершил свою работу')
+        logging.info('Бот завершил свою работу')
