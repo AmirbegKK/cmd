@@ -34,6 +34,6 @@ jobs:
     - name: Safety check
       run: |
         pip install safety
-        if [ -f requirements.txt ]; safety check -r requirements.txt; fi
+        if [ -f requirements.txt ]; then safety check -r requirements.txt; fi
         
 
