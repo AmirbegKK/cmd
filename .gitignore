@@ -3,3 +3,6 @@ ven
 datasets
 
 db.sqlite3
+.env
+.python-version
+.idea
