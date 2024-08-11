@@ -1,4 +1,4 @@
-from sqlalchemy import BigInteger, DateTime, String, func, ForeignKey
+from sqlalchemy import BigInteger, DateTime, String, func, ForeignKey, SmallInteger
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy.ext.asyncio import AsyncAttrs
 
@@ -18,7 +18,7 @@ class Donate(Base):
 
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
     hashtag: Mapped[str] = mapped_column(String(255), nullable=False)
-    goal : Mapped[int] = mapped_column(BigInteger)
+    goal: Mapped[int] = mapped_column(BigInteger)
     collected: Mapped[int] = mapped_column(BigInteger)
     user_count: Mapped[int] = mapped_column(BigInteger)
     status: Mapped[int] = mapped_column(BigInteger)
@@ -37,3 +37,4 @@ class Review(Base):
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     tg_id: Mapped[int] = mapped_column(BigInteger, ForeignKey('users.tg_id'))
     text: Mapped[str] = mapped_column(String(500), nullable=False)
+    type: Mapped[int] = mapped_column(SmallInteger, nullable=False)

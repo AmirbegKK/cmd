@@ -33,11 +33,10 @@ async def get_donate_by_id(donate_id: int):
         return await session.scalar(select(Donate).where(Donate.id == donate_id))
 
 
-async def create_review(tg_id, text):
+async def create_review(tg_id: int, text: str, review_type: int):
     """
     Создать отзыв
     """
     async with session_maker() as session:
-        session.add(Review(tg_id=tg_id, text=text))
+        session.add(Review(tg_id=tg_id, text=text, type=review_type))
         await session.commit()
-    
