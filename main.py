@@ -12,7 +12,9 @@ from handlers.private_chat import user_pr_router
 from keyboards.bot_commands import private
 from database.engine import create_db, drop_db
 
+
 logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.DEBUG)
 load_dotenv(find_dotenv())
 
 ALLOWED_UPDATES = [
@@ -40,7 +42,7 @@ async def main():
 
 if __name__ == '__main__':
     try:
-        logger.info('Бот запущен')
+        logger.debug('Бот запущен')
         asyncio.run(main())
     except KeyboardInterrupt:
-        logging.info('Бот завершил свою работу')
+        logging.debug('Бот завершил свою работу')
