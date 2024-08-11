@@ -38,3 +38,10 @@ class Review(Base):
     tg_id: Mapped[int] = mapped_column(BigInteger, ForeignKey('users.tg_id'))
     text: Mapped[str] = mapped_column(String(500), nullable=False)
     type: Mapped[int] = mapped_column(SmallInteger, nullable=False)
+
+
+class Admin(Base):
+    __tablename__ = 'admins'
+
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    tg_id: Mapped[int] = mapped_column(BigInteger)

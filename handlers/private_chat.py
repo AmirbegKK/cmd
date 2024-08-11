@@ -1,7 +1,8 @@
+from enum import IntEnum, StrEnum
+
 from aiogram import F, Router, types
 from aiogram.filters import Command, CommandStart
 from aiogram.fsm.context import FSMContext
-from enum import IntEnum, StrEnum
 
 from keyboards import utils
 from filters.chat_types import ChatTypeFilter
@@ -99,3 +100,5 @@ async def review_text(message: types.Message, state: FSMContext) -> None:
     await rq.create_review(tg_id=message.from_user.id, text=message.text, review_type=review_type)
     await message.answer('Спасибо за ваш отзыв! Мы обязательно его учтём.')
     await state.clear()
+
+
