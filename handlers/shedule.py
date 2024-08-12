@@ -31,22 +31,24 @@ date_map= {
 
 
 @admin_router.callback_query(F.data == 'send_notificatoins')
-async def send_notificatoins(*args):
+async def send_notificatoins(callback: types.CallbackQuery=None,*args):
     user_id = await rq.get_users_id()
     
-    donate_count = rd.randint(20, 50)
-    donates = await rq.get_rand_donate(donate_count)
+    donates, donate_count = await rq.get_rand_donate()
+    
+    if callback:
+        await callback.answer()
     
     for user in user_id:
-        await bot.send_message(user, f'Напоминаем вам о важности пожертвований и предлагаем данный сбор: \n{donates[rd.randint(1, donate_count)-1].title}')
+        kb = reply.donate_random_kb
+        await bot.send_message(user, f'Напоминаем вам о важности пожертвований и предлагаем данный сбор: \n{donates[rd.randint(0, donate_count-1)].title}', reply_markup=kb)
         
 
 @admin_router.callback_query(F.data == 'start_notificatoins')
 async def start_notifications(callback: types.CallbackQuery, state: FSMContext):
     if callback.from_user.id == ADMIN_ID or await rq.check_user_admin(callback.from_user.id):
         await state.set_state(SheduleState.time)
-        await bot.send_message(callback.from_user.id, 'Выберите время для запуска рассылки', reply_markup=reply.time_kb)
-        await callback.answer()
+        await callback.message.edit_text('Выберите время для запуска рассылки', reply_markup=reply.time_kb)
     else:
         await callback.message.answer('Недостаточно прав')
 
@@ -58,8 +60,7 @@ async def set_shedule_time(callback: types.CallbackQuery, state: FSMContext):
         time = callback.data.split('_')[-1]
         await state.update_data(time=time)
         await state.set_state(SheduleState.period)
-        await callback.message.answer('Выберите период', reply_markup=reply.period_kb)
-        await callback.answer()
+        await callback.message.edit_text('Выберите период', reply_markup=reply.period_kb)
          
 
 @admin_router.callback_query(F.data.startswith('peroid_type_'))
@@ -98,13 +99,11 @@ async def set_shedule_period(callback: types.CallbackQuery, state: FSMContext):
         try:
             scheduler.start()
         except SchedulerAlreadyRunningError:
-            await bot.send_message(callback.from_user.id, 'Автонапоминание уже запущено')
-            await callback.answer()
+            await callback.message.edit_text('Автонапоминание уже запущено')
             return
 
-        await callback.message.answer('Время уведомлений установлено')
+        await callback.message.edit_text('Время уведомлений установлено')
         await state.clear()
-        await callback.answer()
 
 
 @admin_router.callback_query(F.data == 'stop_notificatoins')
@@ -113,7 +112,6 @@ async def stop_notifications(callback: types.CallbackQuery):
         global notifications_send_acсess
         notifications_send_acсess = False
         scheduler.shutdown()
-        await bot.send_message(callback.from_user.id, 'Уведомления о сборах остановлены')
-        await callback.answer()
+        await callback.message.edit_text(callback.from_user.id, 'Уведомления о сборах остановлены')
     else:
-        await callback.message.answer('Недостаточно прав')
+        await callback.message.edit_text('Недостаточно прав')

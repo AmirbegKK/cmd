@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 load_dotenv('.env')
 client = Mistral(api_key=os.getenv('MISTRAL_API_KEY'))
 
-with open('faq.txt', 'r') as f:
+with open('faq.txt', 'r', encoding='utf-8') as f:
     text = f.read()
 
 chunk_size = 2048

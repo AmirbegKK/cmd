@@ -40,7 +40,9 @@ async def start_cmd(message: types.Message) -> None:
 
 @user_pr_router.message(Command('application'))
 async def application_call(message: types.Message, command: Command) -> None:
-    await message.answer('Оставить заявку: https://forms.amocrm.ru/rtwczcv')
+    kb = reply.application_kb
+    await message.answer('Оставить заявку можно по кнопке ниже', reply_markup=kb)
+
 
 @user_pr_router.message(Command('ai_assistent'))
 async def ai_assistent_call(message: types.Message, command: Command, state: FSMContext) -> None:
@@ -57,8 +59,7 @@ async def ai_text(message: types.Message, state: FSMContext) -> None:
 @user_pr_router.callback_query(F.data.startswith('thanks'))
 async def reset_state(callback: types.CallbackQuery, state: FSMContext) -> None:
     await state.clear()
-    await callback.answer()
-    await callback.message.answer('Рады помочь!')
+    await callback.message.edit_text('Рады помочь!')
 
 
 @user_pr_router.message(Command('donate'))
@@ -72,7 +73,6 @@ async def donate_page_callback(callback: types.CallbackQuery) -> None:
     page = int(callback.data.split(':')[-1])
     kb = await utils.donats_list_kb(row=3, column=2, page=page)
     await callback.message.edit_text('Список пожертвований', reply_markup=kb)
-    await callback.answer()
 
 
 @user_pr_router.callback_query(F.data.startswith('donateID:'))
@@ -92,8 +92,7 @@ async def donate_id_callback(callback: types.CallbackQuery) -> None:
         status = DonateStatusText.FINISHED
     text = f'Сбор для: {title}\nСтатус: {status}\nТребуется {goal}\nСобрано: {collected}\nДата начала сбора: {publshed_at}'
 
-    await callback.message.answer(text)
-    await callback.answer()
+    await callback.message.edit_text(text)
 
 
 @user_pr_router.message(Command('review'))
@@ -106,8 +105,7 @@ async def review(message: types.Message, command: Command, state: FSMContext) ->
 async def review_type_callback(callback: types.CallbackQuery, state: FSMContext) -> None:
     review_type = int(callback.data.split(':')[-1])
     await state.set_data(data={'review_type': review_type})
-    await callback.answer()
-    await callback.message.answer('Оставьте ваш отзыв!')
+    await callback.message.edit_text('Оставьте ваш отзыв!')
 
 
 @user_pr_router.message(fsm.ReviewState.text)

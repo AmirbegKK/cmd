@@ -40,3 +40,14 @@ thanks_kb = InlineKeyboardMarkup(
         [InlineKeyboardButton(text='Спасибо', callback_data='thanks')]
     ]
 )
+
+donate_random_kb = InlineKeyboardMarkup(
+    inline_keyboard=[
+        [InlineKeyboardButton(text='Пожертвовать', url='https://tooba.com/ru/')]
+    ]
+)
+application_kb = InlineKeyboardMarkup(
+    inline_keyboard=[
+        [InlineKeyboardButton(text='Оставить заявку', url='https://forms.amocrm.ru/rtwczcv')]
+    ]
+)

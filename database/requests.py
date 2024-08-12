@@ -98,7 +98,7 @@ async def create_review(tg_id: int, text: str, review_type: int):
         await session.commit()
 
 
-async def get_rand_donate(count):
+async def get_rand_donate():
     """
     Получить случайные пожертвования
     """
@@ -106,9 +106,7 @@ async def get_rand_donate(count):
 
     async with session_maker() as session:
         donates = []
-        for i in range(count):
-            
-            donate = await session.scalar(select(Donate).where(Donate.status == 4).offset(rd.randint(0, 2082)))
-            if donate not in donates:
-                donates.append(donate)
-        return donates
+        donates_query = await session.scalars(select(Donate).where(Donate.status == 4))
+        for donate in donates_query:
+            donates.append(donate)
+        return donates, len(donates)

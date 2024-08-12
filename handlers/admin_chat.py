@@ -25,10 +25,10 @@ async def admin_panel_call(message: types.Message) -> None:
 async def add_admin(callback: types.CallbackQuery, state: FSMContext):
     if callback.from_user.id == ADMIN_ID or await rq.check_user_admin(callback.from_user.id):
         await state.set_state(AdminAddState.tg_id)
-        await callback.message.answer("Введите id пользователя которого хотите добавить в администраторы")
+        await callback.message.edit_text("Введите id пользователя которого хотите добавить в администраторы")
     else:
-        await callback.message.answer("Недостаточно прав")
-    await callback.answer()
+        await callback.message.edit_text("Недостаточно прав")
+
 
 
 @admin_router.message(AdminAddState.tg_id)
@@ -46,10 +46,9 @@ async def add_admin_tg_id(message: types.Message, state: FSMContext):
 async def delete_admin(callback: types.CallbackQuery, state: FSMContext):
     if await rq.check_user_admin(callback.from_user.id):
         await state.set_state(AdminDelState.tg_id)
-        await callback.message.answer("Введите id пользователя которого хотите удалить из администраторов")
+        await callback.message.edit_text("Введите id пользователя которого хотите удалить из администраторов")
     else:
-        await callback.message.answer("Недостаточно прав")
-    await callback.answer()
+        await callback.message.edit_text("Недостаточно прав")
     
 
 @admin_router.message(AdminDelState.tg_id)
