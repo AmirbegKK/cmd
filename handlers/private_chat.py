@@ -39,8 +39,8 @@ async def start_cmd(message: types.Message) -> None:
 
 
 @user_pr_router.message(Command('application'))
-async def ai_assistent_call(message: types.Message, command: Command) -> None:
-    await message.answer(f'Оставить заявку: https://forms.amocrm.ru/rtwczcv')
+async def application_call(message: types.Message, command: Command) -> None:
+    await message.answer('Оставить заявку: https://forms.amocrm.ru/rtwczcv')
 
 @user_pr_router.message(Command('ai_assistent'))
 async def ai_assistent_call(message: types.Message, command: Command, state: FSMContext) -> None:
