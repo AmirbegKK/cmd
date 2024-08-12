@@ -1,5 +1,6 @@
 aiogram
 aiosqlite
+alembic
 python-dotenv
 SQLAlchemy
 mistralai

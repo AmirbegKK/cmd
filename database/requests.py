@@ -78,7 +78,7 @@ async def get_donats(limit: int, offset: int):
     Получить список пожертвований
     """
     async with session_maker() as session:
-        return await session.scalars(select(Donate).offset(offset).limit(limit))
+        return await session.scalars(select(Donate).where(Donate.status == 4).offset(offset).limit(limit))
 
 
 async def get_donate_by_id(donate_id: int):
@@ -108,7 +108,7 @@ async def get_rand_donate(count):
         donates = []
         for i in range(count):
             
-            donate = await session.scalar(select(Donate).offset(rd.randint(0, 2082)))
+            donate = await session.scalar(select(Donate).where(Donate.status == 4).offset(rd.randint(0, 2082)))
             if donate not in donates:
                 donates.append(donate)
         return donates

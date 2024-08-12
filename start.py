@@ -9,7 +9,7 @@ from main import bot, dp
 from handlers.private_chat import user_pr_router
 from handlers.admin_chat import admin_router
 from keyboards.bot_commands import private
-from database.engine import create_db, drop_db
+from database.engine import create_db
 from handlers.shedule import shedule_router
 
 
@@ -39,7 +39,7 @@ async def main():
 
     await dp.start_polling(bot, allowed_updates=ALLOWED_UPDATES)
 
-    await drop_db()
+    # await drop_db()
 
 
 if __name__ == '__main__':
