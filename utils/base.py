@@ -17,7 +17,7 @@ def export_to_sqlite():
 
     cursor.execute('CREATE TABLE IF NOT EXISTS campaigns (id int, hashtag text, goal int, collected int , user_count int, status int, charity_id int, help_receiver_count int, link_open_event_count int, published_at datatime, finished_at datatime, finish_payment_id int, title text )')
 
-    file_to_read = openpyxl.load_workbook('datasets/campaigns.xlsx', data_only=True)
+    file_to_read = openpyxl.load_workbook('utils/campaigns.xlsx', data_only=True)
     sheet = file_to_read['Query result']
 
 
