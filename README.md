@@ -25,5 +25,5 @@
 и ваша база данных готова.
 
 # Запуск
-    python main.py 
+    python start.py
 Тег бота - https://t.me/toobahack_bot
