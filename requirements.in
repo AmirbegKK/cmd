@@ -1,3 +1,7 @@
 aiogram
+aiosqlite
 python-dotenv
 SQLAlchemy
+mistralai
+numpy
+faiss_cpu

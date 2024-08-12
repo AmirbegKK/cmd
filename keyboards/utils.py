@@ -1,3 +1,4 @@
+from enum import IntEnum
 from typing import List
 
 from aiogram.utils.keyboard import InlineKeyboardBuilder
@@ -6,6 +7,10 @@ from aiogram.types import InlineKeyboardButton
 from database import requests as rq
 from database.models import Donate
 
+
+class ReviewType(IntEnum):
+    BOT = 1
+    APP = 2
 
 async def donats_list_kb(row=2, column=3, page=0):
     donats = await rq.get_donats(offset=row*column*page, limit=row*column+1)
@@ -39,4 +44,13 @@ async def donats_list_kb(row=2, column=3, page=0):
             InlineKeyboardButton(text="▶️", callback_data=f"donate_page:{page+1}")
         )
     
+    return keyboard.as_markup()
+
+
+def review_type_kb():
+    keyboard = InlineKeyboardBuilder()
+    keyboard.row(
+        InlineKeyboardButton(text="О работе боте", callback_data=f"review_type:{ReviewType.BOT}"),
+        InlineKeyboardButton(text="О работе приложения", callback_data=f"review_type:{ReviewType.APP}")
+    )
     return keyboard.as_markup()
