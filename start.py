@@ -10,7 +10,7 @@ from handlers.private_chat import user_pr_router
 from handlers.admin_chat import admin_router
 from keyboards.bot_commands import private
 from database.engine import create_db, drop_db
-from shedule import shedule_router
+from handlers.shedule import shedule_router
 
 
 logger = logging.getLogger(__name__)

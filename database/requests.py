@@ -1,3 +1,5 @@
+import random as rd
+
 from sqlalchemy import select
 
 from database.engine import session_maker
@@ -94,3 +96,19 @@ async def create_review(tg_id: int, text: str, review_type: int):
     async with session_maker() as session:
         session.add(Review(tg_id=tg_id, text=text, type=review_type))
         await session.commit()
+
+
+async def get_rand_donate(count):
+    """
+    Получить случайные пожертвования
+    """
+    
+
+    async with session_maker() as session:
+        donates = []
+        for i in range(count):
+            
+            donate = await session.scalar(select(Donate).offset(rd.randint(0, 2082)))
+            if donate not in donates:
+                donates.append(donate)
+        return donates
