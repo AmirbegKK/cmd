@@ -39,7 +39,7 @@ async def main():
 
     await dp.start_polling(bot, allowed_updates=ALLOWED_UPDATES)
 
-    await drop_db()
+    # await drop_db()
 
 
 if __name__ == '__main__':

@@ -15,8 +15,7 @@ class ReviewType(IntEnum):
 async def donats_list_kb(row=2, column=3, page=0):
     donats = await rq.get_donats(offset=row*column*page, limit=row*column+1)
     donat_list: List[Donate] = [i for i in donats]
-
-    len_donats:int = len(donat_list)
+    len_donats: int = len(donat_list)
 
     keyboard = InlineKeyboardBuilder()
 

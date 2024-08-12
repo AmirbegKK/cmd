@@ -35,8 +35,12 @@ class ReviewType(IntEnum):
 @user_pr_router.message(F.text.lower() == "старт")
 async def start_cmd(message: types.Message) -> None:
     await rq.set_user(message.from_user.id, name=message.from_user.first_name)
-    await message.answer("Приветственный текст")
+    await message.answer("Привет! Я твой проводник по миру TOOBA и всегда готов помочь!")
 
+
+@user_pr_router.message(Command('application'))
+async def ai_assistent_call(message: types.Message, command: Command) -> None:
+    await message.answer(f'Оставить заявку: https://forms.amocrm.ru/rtwczcv')
 
 @user_pr_router.message(Command('ai_assistent'))
 async def ai_assistent_call(message: types.Message, command: Command, state: FSMContext) -> None:
@@ -86,8 +90,7 @@ async def donate_id_callback(callback: types.CallbackQuery) -> None:
         status = DonateStatusText.CLOSED
     elif donate.status == DonateStatus.FINISHED:
         status = DonateStatusText.FINISHED
-    finished_at = donate.finished_at if donate.finished_at else "Не окончен"
-    text = f'Сбор для: {title}\nСтатус: {status}\nТребуется {goal}\nСобрано: {collected}\nДата начала сбора: {publshed_at}\nДата окончания: {finished_at}\n'
+    text = f'Сбор для: {title}\nСтатус: {status}\nТребуется {goal}\nСобрано: {collected}\nДата начала сбора: {publshed_at}'
 
     await callback.message.answer(text)
     await callback.answer()
