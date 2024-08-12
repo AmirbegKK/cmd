@@ -36,8 +36,10 @@ async def add_admin_tg_id(message: types.Message, state: FSMContext):
     admin = await rq.set_admin(message.text)
     await state.clear()
     
-    if admin: await message.answer('Пользователь теперь администратор')
-    else: await message.answer('Пользователь уже администратор')
+    if admin:
+        await message.answer('Пользователь теперь администратор')
+    else:
+        await message.answer('Пользователь уже администратор')
 
 
 @admin_router.callback_query(F.data == 'delete_admin')

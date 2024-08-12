@@ -1,6 +1,7 @@
 import os
 import random as rd
 
+from apscheduler.schedulers import SchedulerAlreadyRunningError
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 from aiogram import F, types
@@ -42,7 +43,7 @@ async def send_notificatoins(*args):
 
 @admin_router.callback_query(F.data == 'start_notificatoins')
 async def start_notifications(callback: types.CallbackQuery, state: FSMContext):
-    if callback.from_user.id == ADMIN_ID or await rq.check_user_admin(callback.message.from_user.id):
+    if callback.from_user.id == ADMIN_ID or await rq.check_user_admin(callback.from_user.id):
         await state.set_state(SheduleState.time)
         await bot.send_message(callback.from_user.id, 'Выберите время для запуска рассылки', reply_markup=reply.time_kb)
         await callback.answer()
@@ -80,7 +81,8 @@ async def set_shedule_period(callback: types.CallbackQuery, state: FSMContext):
                 minute=minute
             )
             hour = str(int(hour) + 12)
-            if int(hour) >= 24: hour = str(int(hour)-24)
+            if int(hour) >= 24:
+                hour = str(int(hour)-24)
             scheduler.add_job(
                 send_notificatoins,
                 'cron',
@@ -95,7 +97,7 @@ async def set_shedule_period(callback: types.CallbackQuery, state: FSMContext):
                     )
         try:
             scheduler.start()
-        except:
+        except SchedulerAlreadyRunningError:
             await bot.send_message(callback.from_user.id, 'Автонапоминание уже запущено')
             await callback.answer()
             return

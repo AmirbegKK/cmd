@@ -33,8 +33,8 @@ index.add(text_embeddings)
 
 async def run_mistral(user_message, model="mistral-large-latest"):
     question_embeddings = np.array([get_text_embedding(user_message)])
-    D, I = index.search(question_embeddings, k=2)  # distance, index
-    retrieved_chunk = [chunks[i] for i in I.tolist()[0]]
+    Dist, Ind = index.search(question_embeddings, k=2)  # distance, index
+    retrieved_chunk = [chunks[i] for i in Ind.tolist()[0]]
     prompt = f"""
     Context information is below.
     ---------------------
