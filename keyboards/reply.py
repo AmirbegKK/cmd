@@ -34,3 +34,9 @@ period_kb = InlineKeyboardMarkup(
         [InlineKeyboardButton(text='24:00', callback_data=f'peroid_type_{Period.ONE_DAY}')]
     ]
 )
+
+thanks_kb = InlineKeyboardMarkup(
+    inline_keyboard=[
+        [InlineKeyboardButton(text='Спасибо', callback_data='thanks')]
+    ]
+)

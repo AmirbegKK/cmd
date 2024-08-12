@@ -4,11 +4,11 @@ from aiogram import F, Router, types
 from aiogram.filters import Command, CommandStart
 from aiogram.fsm.context import FSMContext
 
-from keyboards import utils
+from keyboards import utils, reply
 from filters.chat_types import ChatTypeFilter
 from database import requests as rq
 from states import fsm
-
+from ai import run_mistral
 
 user_pr_router = Router()
 user_pr_router.message.filter(ChatTypeFilter(["private"]))
@@ -39,9 +39,22 @@ async def start_cmd(message: types.Message) -> None:
 
 
 @user_pr_router.message(Command('ai_assistent'))
-async def ai_assistent_call(message: types.Message, command: Command) -> None:
-    await message.answer('Запущен AI-ассистент помогу вам с удобными вопросами.')
-    # Add more logic here to handle the command
+async def ai_assistent_call(message: types.Message, command: Command, state: FSMContext) -> None:
+    await state.set_state(fsm.AIAssistantState.text)
+    await message.answer('Привет! Я готов ответить на твои вопросы.')
+
+
+@user_pr_router.message(fsm.AIAssistantState.text)
+async def ai_text(message: types.Message, state: FSMContext) -> None:
+    answer = await run_mistral(message.text)
+    await message.answer(answer, reply_markup=reply.thanks_kb)
+
+
+@user_pr_router.callback_query(F.data.startswith('thanks'))
+async def reset_state(callback: types.CallbackQuery, state: FSMContext) -> None:
+    await state.clear()
+    await callback.answer()
+    await callback.message.answer('Рады помочь!')
 
 
 @user_pr_router.message(Command('donate'))
@@ -90,6 +103,7 @@ async def review(message: types.Message, command: Command, state: FSMContext) ->
 async def review_type_callback(callback: types.CallbackQuery, state: FSMContext) -> None:
     review_type = int(callback.data.split(':')[-1])
     await state.set_data(data={'review_type': review_type})
+    await callback.answer()
     await callback.message.answer('Оставьте ваш отзыв!')
 
 

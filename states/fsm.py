@@ -1,5 +1,10 @@
 from aiogram.fsm.state import State, StatesGroup
 
+
+class AIAssistantState(StatesGroup):
+    text = State()
+
+
 class ReviewState(StatesGroup):
     text = State()
 
